@@ -8,10 +8,20 @@ export function TudumSplash({ onComplete }: { onComplete: () => void }) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
-    audioRef.current = new Audio("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/netflix-tudum-sfx-n-c-zAKXEHBYl3ICOeHH6eA6pqwzZFt9sF.mp3")
-    audioRef.current.volume = 0.5
+    audioRef.current = new Audio("/netflix-tudum-sfx-n-c.mp3")
+    audioRef.current.volume = 1.0
+    audioRef.current.preload = "auto"
 
-    audioRef.current.play().catch(() => {})
+    const playAudio = () => {
+      audioRef.current?.play().catch(() => {})
+    }
+
+    // Try to play immediately
+    playAudio()
+    
+    // Also try on user interaction
+    document.addEventListener('click', playAudio, { once: true })
+    document.addEventListener('keydown', playAudio, { once: true })
 
     const lineTimer = setTimeout(() => setPhase("logo"), 400)
     const glowTimer = setTimeout(() => {
